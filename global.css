@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #fbf8f2;
+    --foreground: #1c1917;
+    --primary: #e87a53;
+    --primary-foreground: #ffffff;
+    --accent: #f4a261;
+    --muted: #8c857b;
+    --card: #ffffff;
+    --card-foreground: #1c1917;
+    --destructive: #ef4444;
+    --success: #10b981;
+  }
+}

@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "NativeProject",
+    "name": "Recurly",
     "slug": "NativeProject",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -9,7 +9,8 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.dacata.NativeProject"
     },
     "android": {
       "adaptiveIcon": {
@@ -18,8 +19,8 @@
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
-      "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.dacata.NativeProject"
     },
     "web": {
       "output": "static",
@@ -38,11 +39,22 @@
             "backgroundColor": "#000000"
           }
         }
-      ]
+      ],
+      "expo-font",
+      "expo-image",
+      "expo-status-bar",
+      "expo-web-browser",
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "858fff94-973f-47a5-9abe-fede4ec3e387"
+      }
     }
   }
 }
