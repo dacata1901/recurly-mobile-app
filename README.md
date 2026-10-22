@@ -1,50 +1,102 @@
-# Welcome to your Expo app 👋
+# 📱 Recurly — Subscription & Recurring Expense Tracker
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Ứng dụng di động đa nền tảng (iOS & Android) giúp người dùng theo dõi, phân tích và quản lý các gói đăng ký dịch vụ định kỳ (Netflix, Spotify, ChatGPT, iCloud...) theo thời gian thực.
 
-## Get started
+🔗 **Tải trực tiếp bản cài đặt Android (.APK):** [Download Recurly APK (Expo EAS Cloud)](https://expo.dev/artifacts/eas/ykNsozh4R7ORkQzxsmcIse0L3Z6cHGn9O3Ae-ZKaWkc.apk)
 
-1. Install dependencies
+---
 
-   ```bash
-   npm install
-   ```
+## 🚀 Công nghệ sử dụng (Tech Stack)
 
-2. Start the app
+- **Core Framework:** React Native & Expo (SDK 54+)
+- **Ngôn ngữ:** TypeScript (Strict Mode & Typed Routes)
+- **Điều hướng (Navigation):** Expo Router (File-based Routing, Route Groups, Dynamic Routes)
+- **Styling & UI:** NativeWind (Tailwind CSS cho React Native), Ionicons
+- **State Management:** Zustand (Global Store đồng bộ thời gian thực)
+- **Authentication & Bảo mật:** Clerk (`@clerk/clerk-expo`), Xác thực OTP 2 lớp qua Email, lưu trữ phiên đăng nhập mã hóa bằng `expo-secure-store`
+- **Cloud Build & Deployment:** Expo Application Services (EAS Build)
 
-   ```bash
-   npx expo start
-   ```
+---
 
-In the output, you'll find options to open the app in a
+## ✨ Tính năng nổi bật (Key Features)
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+1. **Xác thực người dùng & Bảo vệ Route (Authentication & Auth Guard):**
+   - Đăng ký tài khoản kèm xác thực mã OTP 6 chữ số gửi trực tiếp qua Email.
+   - Tự động duy trì phiên đăng nhập an toàn trên thiết bị bằng phần cứng mã hóa (`SecureStore`).
+   - Cơ chế `Redirect` bảo vệ các màn hình bên trong nhóm `(tabs)` khi chưa đăng nhập.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+2. **Bảng điều khiển thông minh (Home Dashboard):**
+   - Tự động tính tổng chi tiêu hàng tháng và số lượng dịch vụ đang hoạt động.
+   - Danh sách cuộn ngang hiển thị các gói sắp đến hạn thanh toán.
+   - Danh sách gói đăng ký hỗ trợ đóng/mở chi tiết (Expandable Cards) và tối ưu hóa cuộn mượt 60 FPS với `ListHeaderComponent`.
 
-## Get a fresh project
+3. **Tìm kiếm, Lọc & Quản lý Gói đăng ký (Subscriptions Management):**
+   - Tìm kiếm tức thì theo tên dịch vụ và bộ lọc theo danh mục (`Entertainment`, `Music`, `Productivity`, `Cloud Storage`).
+   - Thêm gói dịch vụ mới qua Slide-up Modal có kiểm tra dữ liệu đầu vào (Validation) và tự động tính ngày gia hạn kế tiếp.
+   - Xem trang chi tiết từng gói qua Dynamic Route (`/subscriptions/[id]`) và xóa gói dịch vụ.
 
-When you're ready, run:
+4. **Phân tích Tài chính (Financial Insights):**
+   - Thống kê chi phí trung bình mỗi tháng và ước tính tổng chi tiêu cả năm.
+   - Tự động xác định gói dịch vụ tiêu tốn nhiều chi phí nhất.
+   - Biểu đồ thanh tiến trình (Progress Bar) trực quan hóa tỷ trọng chi tiêu (%) theo từng danh mục.
 
-```bash
-npm run reset-project
+---
+
+## 📂 Cấu trúc thư mục (Project Structure)
+
+```text
+├── app/
+│   ├── _layout.tsx                # Root Layout & Cấu hình ClerkProvider + SecureStore
+│   ├── (auth)/                    # Route Group: Luồng xác thực người dùng
+│   │   ├── _layout.tsx            # Auth Guard cho màn hình đăng nhập/đăng ký
+│   │   ├── sign-in.tsx            # Màn hình Đăng nhập
+│   │   └── sign-up.tsx            # Màn hình Đăng ký & Xác thực Email OTP
+│   └── (tabs)/                    # Route Group: Các màn hình chính có Bottom Tab Bar
+│       ├── _layout.tsx            # Cấu hình Bottom Tabs & Protected Route Guard
+│       ├── index.tsx              # Màn hình Home Dashboard
+│       ├── subscriptions.tsx      # Màn hình Tìm kiếm & Lọc theo danh mục
+│       ├── insights.tsx           # Màn hình Phân tích & Thống kê tài chính
+│       ├── settings.tsx           # Màn hình Hồ sơ người dùng & Đăng xuất
+│       └── subscriptions/
+│           └── [id].tsx           # Dynamic Route: Chi tiết từng gói đăng ký
+├── components/
+│   ├── SubscriptionCard.tsx       # Thẻ hiển thị gói dịch vụ (Expandable Card)
+│   └── CreateSubscriptionModal.tsx# Modal trượt lên để tạo gói đăng ký mới
+├── store/
+│   └── useSubscriptionStore.ts    # Kho quản lý State toàn cục bằng Zustand
+├── constants/
+│   └── mockData.ts                # Dữ liệu khởi tạo mẫu
+├── lib/
+│   ├── utils.ts                   # Hàm tiện ích định dạng tiền tệ (Intl.NumberFormat)
+│   └── analytics.ts               # Bộ ghi nhận sự kiện người dùng (Product Analytics)
+└── types/
+    └── subscription.ts            # Định nghĩa kiểu dữ liệu TypeScript
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
+## 🛠️ Hướng dẫn cài đặt và chạy dự án (Getting Started)
 
-To learn more about developing your project with Expo, look at the following resources:
+### 1. Cài đặt thư viện
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```bash
+npm install
+```
 
-## Join the community
+### 2. Cấu hình biến môi trường (`.env`)
 
-Join our community of developers creating universal apps.
+Tạo file `.env` ở thư mục gốc và thêm khóa Publishable Key từ [Clerk Dashboard](https://clerk.com):
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```env
+EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_your_clerk_key_here
+```
+
+### 3. Khởi chạy ứng dụng
+
+```bash
+npx expo start --clear
+```
+
+- Nhấn `a` để mở trên Android Emulator.
+- Nhấn `w` để mở trên trình duyệt Web.
+- Hoặc quét mã QR bằng ứng dụng **Expo Go** trên điện thoại thực tế.
